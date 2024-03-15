@@ -34,7 +34,7 @@ class AuthController {
                 if (!verify) {
                     return res.status(400).send({ message: "Invalid email or Password..." })
                 }
-                const payload = { email: user.email, id: user._id }
+                const payload = { email: user.email, id: user.id }
                 const token = jwt.sign(payload, process.env.JWT_SECRET, {
                     expiresIn: "365d"
                 })
@@ -46,6 +46,10 @@ class AuthController {
             res.status(501).send({ message: "something went wrong..." })
         }
 
+    }
+    static async getUser(req, res) {
+        const user = req.user
+        res.status(200).send({ data: user })
     }
 }
 
